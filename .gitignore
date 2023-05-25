@@ -1,0 +1,14 @@
+# vscode
+.vscode
+
+# env vars
+.env
+
+# s3 data
+data/*
+
+# kaggle token
+kaggle.json
+
+# catbosst info
+catboost_info
