@@ -1,4 +1,4 @@
-version: '3.6'
+version: "3.6"
 services:
   minio:
     image: minio/minio
@@ -83,9 +83,33 @@ services:
       PMA_ARBITRARY: 1
     restart: always
     ports:
-      - '8081:80'
+      - "8081:80"
     networks:
       - ml-net
+  fastapi-app:
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    container_name: fastapi
+    restart: always
+    ports:
+      - 8000:8000
+    networks:
+      - ml-net
+    depends_on:
+      - mlflow
+    environment:
+      - MLFLOW_SERVER_HOST=${MLFLOW_SERVER_HOST}
+      - MLFLOW_SERVER_PORT=${MLFLOW_SERVER_PORT}
+      - MLFLOW_S3_ENDPOINT_URL=http://minio:${MINIO_PORT}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - MLFLOW_BUCKET=${MLFLOW_BUCKET}
+      - DATA_BUCKET=${DATA_BUCKET}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
 
 volumes:
   cache:

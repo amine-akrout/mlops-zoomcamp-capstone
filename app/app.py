@@ -87,28 +87,9 @@ def create_minio_client(
 def start_load_model():
     """Function to load the model on startup"""
     global model
-    # logger.info("Loading the model...")
-    # (
-    #     minio_host,
-    #     minio_port,
-    #     minio_root_user,
-    #     minio_root_password,
-    #     model_bucket,
-    # ) = get_env_variable()
-    # minio_client = create_minio_client(
-    #     minio_host, minio_port, minio_root_user, minio_root_password
-    # )
-    # try:
-    #     model = minio_client.fget_object(
-    #         model_bucket,
-    #         "model/model.pkl",
-    #         "model.pkl",
-    #     )
-    # except S3Error as exc:
-    #     logging.error("error occurred %s", exc)
-    #     raise
-    # logger.info("Model loaded successfully")
-    mlflow.set_tracking_uri("http://localhost:5000")
+    logger.info("Loading the model...")
+    # mlflow.set_tracking_uri("http://localhost:5000")
+    mlflow.set_tracking_uri("http://mlflow:5000")
 
     # # experiment = mlflow.get_experiment_by_name("default_prediction")
     # # run_id = experiment.latest_run_id
