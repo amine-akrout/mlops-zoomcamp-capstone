@@ -120,3 +120,9 @@ def predict(user: User):
     else:
         prediction = "Default"
     return {"prediction": prediction}
+
+
+@app.get("/health")
+def health():
+    """Function to check the health of the app"""
+    return {"status": "ok"}

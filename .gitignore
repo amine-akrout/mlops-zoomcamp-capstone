@@ -12,3 +12,6 @@ kaggle.json
 
 # catbosst info
 catboost_info
+
+# python cache
+*__pycache__/*
