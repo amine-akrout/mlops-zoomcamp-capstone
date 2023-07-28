@@ -146,7 +146,8 @@ def train_model(
         learning_rate=0.1,
         depth=6,
         loss_function="Logloss",
-        eval_metric=["AUC", "Accuracy", "Recall", "Precision", "F1"],
+        eval_metric="AUC",
+        custom_metric=["AUC", "Accuracy", "Precision", "Recall", "F1"],
         verbose=True,
     )
     with mlflow.start_run() as run:
