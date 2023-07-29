@@ -14,6 +14,7 @@ services:
       - ml-net
     volumes:
       - ./data/minio-data:/data
+
   # mc:
   #   container_name: mc
   #   image: minio/mc
@@ -30,6 +31,7 @@ services:
   #     "
   #   networks:
   #     - ml-net
+
   mlflow:
     image: ghcr.io/mlflow/mlflow
     container_name: mlflow
@@ -72,6 +74,7 @@ services:
       - mlflow_db_volume:/var/lib/mysql
     networks:
       - ml-net
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: pma
@@ -86,6 +89,7 @@ services:
       - "8081:80"
     networks:
       - ml-net
+
   fastapi-app:
     build:
       context: ./app
@@ -98,6 +102,7 @@ services:
       - ml-net
     depends_on:
       - mlflow
+      - mongo
     environment:
       - MLFLOW_SERVER_HOST=${MLFLOW_SERVER_HOST}
       - MLFLOW_SERVER_PORT=${MLFLOW_SERVER_PORT}
@@ -111,12 +116,36 @@ services:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
 
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    networks:
+      - ml-net
+    volumes:
+      - ./data/mongo-data:/data/db
+
+  mongo-express:
+    image: mongo-express
+    container_name: mongo-express
+    restart: always
+    ports:
+      - 8082:8081
+    networks:
+      - ml-net
+    depends_on:
+      - mongo
+
 volumes:
   cache:
     driver: local
   minio-data:
     driver: local
   mlflow_db_volume:
+    driver: local
+  mongo-data:
     driver: local
 networks:
   ml-net:

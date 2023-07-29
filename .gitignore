@@ -15,3 +15,6 @@ catboost_info
 
 # python cache
 *__pycache__/*
+
+# xls data
+*.xls
