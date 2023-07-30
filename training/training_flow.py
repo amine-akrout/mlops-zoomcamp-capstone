@@ -117,7 +117,7 @@ def prepare_data(data: pd.DataFrame):
         inplace=True,
     )
     # return random sample of 1000 rows
-    return data.sample(1000)
+    return data.sample(min(1000, len(data)), random_state=42).reset_index(drop=True)
 
 
 # split the data into train and test

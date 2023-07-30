@@ -14,7 +14,7 @@ kaggle.json
 catboost_info
 
 # python cache
-*__pycache__/*
+__pycache__/
 
 # xls data
 *.xls
