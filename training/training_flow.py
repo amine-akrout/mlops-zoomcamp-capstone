@@ -2,20 +2,17 @@
 import logging
 import os
 from tempfile import TemporaryDirectory
-from datetime import timedelta
 
 import mlflow
 import mlflow.xgboost
 import pandas as pd
 from catboost import CatBoostClassifier
 from dotenv import load_dotenv
+from etl.get_data import download_data
 from minio import Minio
 from minio.error import S3Error
-from sklearn.model_selection import train_test_split
 from prefect import flow, task
-from prefect.tasks import task_input_hash
-
-from etl.get_data import download_data
+from sklearn.model_selection import train_test_split
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s: [%(levelname)s]: %(message)s"
