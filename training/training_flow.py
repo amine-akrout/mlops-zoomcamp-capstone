@@ -2,6 +2,7 @@
 import logging
 import os
 from tempfile import TemporaryDirectory
+from datetime import timedelta
 
 import mlflow
 import mlflow.xgboost
@@ -11,6 +12,8 @@ from dotenv import load_dotenv
 from minio import Minio
 from minio.error import S3Error
 from sklearn.model_selection import train_test_split
+from prefect import flow, task
+from prefect.tasks import task_input_hash
 
 from etl.get_data import download_data
 
@@ -60,6 +63,13 @@ def create_minio_client(
 
 
 # read the data from minio
+@task(
+    log_prints=True,
+    # cache_key_fn=task_input_hash,
+    # cache_expiration=timedelta(days=7),
+    retries=3,
+    tags=["read_data"],
+)
 def read_data(
     minio_client: Minio, data_bucket: str, object_name: str = "credit_card.parquet"
 ):
@@ -73,6 +83,7 @@ def read_data(
 
 
 # prepare the data for training
+@task(log_prints=True, tags=["preprocess"])
 def prepare_data(data: pd.DataFrame):
     """This function is used to prepare the data for training
     Args:
@@ -110,6 +121,7 @@ def prepare_data(data: pd.DataFrame):
 
 
 # split the data into train and test
+@task(log_prints=True, tags=["split_data"])
 def split_data(data: pd.DataFrame):
     """This function is used to split the data into train and test
     Args:
@@ -128,6 +140,7 @@ def split_data(data: pd.DataFrame):
 
 
 # train the model
+@task(log_prints=True, tags=["train_model"])
 def train_model(
     x_train: pd.DataFrame,
     y_train: pd.DataFrame,
@@ -162,6 +175,7 @@ def train_model(
         mlflow.end_run()
 
 
+@flow(name="training")
 def training_flow():
     """Main flow of the training"""
     _ = load_dotenv()
