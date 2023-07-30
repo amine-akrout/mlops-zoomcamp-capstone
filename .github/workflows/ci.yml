@@ -25,6 +25,9 @@ jobs:
       - name: Install training dependencies
         run: pip install -r training/requirements.txt
 
+      - name: Install quality_checks dependencies
+        run: pip install pytest black pylint isort
+
       - name: Run training tests
         run: pytest training/tests/
 
