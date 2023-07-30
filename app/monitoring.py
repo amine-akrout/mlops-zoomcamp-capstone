@@ -5,11 +5,10 @@ Module for monitoring the API
 from datetime import datetime, timedelta
 
 import pandas as pd
+from evidently import ColumnMapping
 from evidently.metric_preset import DataDriftPreset
 from evidently.report import Report
-from evidently import ColumnMapping
 from pymongo import MongoClient
-
 
 client = MongoClient("mongodb://mongo:27017/")
 

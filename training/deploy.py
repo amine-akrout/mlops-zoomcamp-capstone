@@ -6,7 +6,6 @@ from datetime import timedelta
 
 from prefect.deployments import Deployment
 from prefect.server.schemas.schedules import IntervalSchedule
-
 from training_flow import training_flow
 
 interval_schedule = IntervalSchedule(interval=timedelta(minutes=5))

@@ -13,15 +13,17 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import pandas as pd
 import pytest
 
-from training.training_flow import (
-    prepare_data,
-    split_data,
-    train_model,
-)
+from training.training_flow import prepare_data, split_data
 
 
 @pytest.fixture
 def test_data():
+    """
+    Fixture to return test data
+
+    Returns:
+        pd.DataFrame: test data
+    """
     return pd.DataFrame(
         {
             "SEX": [1, 2, 1, 2],
@@ -36,7 +38,12 @@ def test_data():
 
 
 def test_prepare_data(test_data):
-    # Arrange
+    """
+    Test the prepare_data function
+
+    Args:
+        test_data (pd.DataFrame): test data
+    """
     expected_columns = [
         "sex",
         "age",
@@ -57,6 +64,13 @@ def test_prepare_data(test_data):
 
 
 def test_split_data(test_data):
+    """
+    Test the split_data function
+
+    Args:
+        test_data (pd.DataFrame): test data
+    """
+
     # Act
     prepared_data = prepare_data.fn(test_data)
     x_train, x_test, y_train, y_test = split_data.fn(prepared_data)

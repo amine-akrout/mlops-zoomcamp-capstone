@@ -6,7 +6,7 @@ test:
 quality_checks:
 	isort .
 	black .
-	pylint .\training --recursive=y --fail-under=9
+	pylint . --recursive=y --fail-under=9
 
 train:
 	cd training && python training_flow.py

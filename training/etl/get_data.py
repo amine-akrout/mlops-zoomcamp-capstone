@@ -9,8 +9,6 @@ from tempfile import TemporaryDirectory
 
 import pandas as pd
 from dotenv import load_dotenv
-
-
 from minio.error import S3Error
 
 logging.basicConfig(

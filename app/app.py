@@ -1,7 +1,7 @@
 """
 Module to run the app
 """
-# pylint: disable=E0401,E0611,R0903
+# pylint: disable=E0401,E0611,R0903,W0601
 import logging
 import warnings
 from datetime import datetime
@@ -10,13 +10,12 @@ import mlflow
 import pandas as pd
 from dotenv import load_dotenv
 from fastapi import BackgroundTasks, FastAPI
-from fastapi_utils.tasks import repeat_every
 from fastapi.responses import FileResponse
+from fastapi_utils.tasks import repeat_every
 from loguru import logger
+from monitoring import generate_dashboard
 from pydantic import BaseModel
 from pymongo import MongoClient
-
-from monitoring import generate_dashboard
 
 warnings.filterwarnings("ignore")
 logging.basicConfig(
