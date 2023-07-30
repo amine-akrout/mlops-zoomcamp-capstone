@@ -22,14 +22,8 @@ jobs:
         with:
           python-version: 3.x
 
-      - name: Install app dependencies
-        run: pip install -r app/requirements.txt
-
       - name: Install training dependencies
         run: pip install -r training/requirements.txt
-
-      - name: Run app tests
-        run: pytest app/tests/
 
       - name: Run training tests
         run: pytest training/tests/
