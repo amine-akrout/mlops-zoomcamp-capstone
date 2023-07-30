@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-and-quality:
+    name: Test and Quality Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+
+      - name: Install app dependencies
+        run: pip install -r app/requirements.txt
+
+      - name: Install training dependencies
+        run: pip install -r training/requirements.txt
+
+      - name: Run app tests
+        run: pytest app/tests/
+
+      - name: Run training tests
+        run: pytest training/tests/
+
+      - name: Run app quality checks
+        run: make -C app quality_checks
+
+      - name: Run training quality checks
+        run: make -C training quality_checks
