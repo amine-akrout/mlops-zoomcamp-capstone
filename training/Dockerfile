@@ -13,12 +13,3 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 
 COPY . .
-
-# Run the web service on container startup using gunicorn
-
-# CMD ["python", "deploy.py"]
-# CMD sleep 60 && python training_flow.py
-
-# CMD ["python", "training_flow.py"]
-
-CMD sleep 60 && python deploy.py

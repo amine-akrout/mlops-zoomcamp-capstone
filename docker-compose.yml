@@ -15,22 +15,22 @@ services:
     volumes:
       - ./data/minio-data:/data
 
-  # mc:
-  #   container_name: mc
-  #   image: minio/mc
-  #   depends_on:
-  #     - minio
-  #   entrypoint: >
-  #     /bin/sh -c "
-  #     /usr/bin/mc alias set myminio http://minio:${MINIO_PORT} ${AWS_ACCESS_KEY_ID} ${AWS_SECRET_ACCESS_KEY} &&
-  #     /usr/bin/mc mb myminio/${DATA_BUCKET} &&
-  #     /usr/bin/mc policy set public myminio/${DATA_BUCKET} &&
-  #     /usr/bin/mc mb myminio/${MLFLOW_BUCKET} &&
-  #     /usr/bin/mc policy set public myminio/${MLFLOW_BUCKET} &&
-  #     exit 0
-  #     "
-  #   networks:
-  #     - ml-net
+  mc:
+    container_name: mc
+    image: minio/mc
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set myminio http://minio:${MINIO_PORT} ${AWS_ACCESS_KEY_ID} ${AWS_SECRET_ACCESS_KEY} &&
+      /usr/bin/mc mb myminio/${DATA_BUCKET} &&
+      /usr/bin/mc policy set public myminio/${DATA_BUCKET} &&
+      /usr/bin/mc mb myminio/${MLFLOW_BUCKET} &&
+      /usr/bin/mc policy set public myminio/${MLFLOW_BUCKET} &&
+      exit 0
+      "
+    networks:
+      - ml-net
 
   mlflow:
     image: ghcr.io/mlflow/mlflow
@@ -160,6 +160,8 @@ services:
       - PREFECT_API_URL=http://prefect_server:4200/api
     depends_on:
       prefect_server:
+        condition: service_started
+      mlflow:
         condition: service_started
     working_dir: "/root/training"
     volumes:

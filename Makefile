@@ -11,8 +11,11 @@ quality_checks:
 train:
 	cd training && python training_flow.py
 
-deploy:
+docker-stack:
 	docker-compose up -d
+
+deploy-prefect:
+	docker-compose run prefect_deploy python deploy.py
 
 stop:
 	docker-compose down
