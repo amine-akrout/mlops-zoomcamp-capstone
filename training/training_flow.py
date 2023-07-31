@@ -168,7 +168,12 @@ def train_model(
         test_mertics = model.get_best_score()["validation"]
         mlflow.log_metrics(train_mertics)
         mlflow.log_metrics(test_mertics)
-        mlflow.catboost.log_model(model, "catboost-model")
+        # register the model
+        mlflow.catboost.log_model(
+            model,
+            "catboost-model"
+            # , registered_model_name="catboost-model"
+        )
         mlflow.end_run()
 
 

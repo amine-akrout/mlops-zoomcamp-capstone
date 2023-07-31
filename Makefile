@@ -19,3 +19,9 @@ stop:
 
 logs:
 	docker-compose logs -f
+
+setup:
+	conda create -n credit-card-default-prediction python=3.8
+	pip install -r training/requirements.txt
+	pip install -r app/requirements.txt
+	pip install pytest pylint black isort
