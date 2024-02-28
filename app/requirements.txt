@@ -1,4 +1,4 @@
-fastapi==0.100.1
+fastapi==0.109.1
 fastapi-utils==0.2.1
 loguru==0.7.0
 minio==7.1.15
